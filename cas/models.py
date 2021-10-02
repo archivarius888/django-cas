@@ -1,5 +1,6 @@
 import logging
 from datetime import datetime
+import ssl
 try:
     from xml.etree import ElementTree
 except ImportError:
@@ -50,7 +51,7 @@ class Tgt(models.Model):
         url = (urljoin(settings.CAS_SERVER_URL, 'proxy') + '?' +
                urlencode(params))
 
-        page = urlopen(url)
+        page = urlopen(url, context=ssl.SSLContext(ssl.PROTOCOL_SSLv23))
 
         try:
             response = page.read()

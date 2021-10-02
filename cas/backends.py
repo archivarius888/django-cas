@@ -1,6 +1,7 @@
 import logging
 from xml.dom import minidom
 import time
+import ssl
 
 try:
     from xml.etree import ElementTree
@@ -46,7 +47,7 @@ def _verify_cas1(ticket, service):
     params = {'ticket': ticket, 'service': service}
     url = (urljoin(settings.CAS_SERVER_URL, 'validate') + '?' +
            urlencode(params))
-    page = urlopen(url)
+    page = urlopen(url, context=ssl.SSLContext(ssl.PROTOCOL_SSLv23))
 
     try:
         verified = page.readline().strip()
@@ -85,7 +86,7 @@ def _internal_verify_cas(ticket, service, suffix):
     url = (urljoin(settings.CAS_SERVER_URL, suffix) + '?' +
            urlencode(params))
 
-    page = urlopen(url)
+    page = urlopen(url, )
 
     username = None
 
@@ -153,7 +154,7 @@ def verify_proxy_ticket(ticket, service):
     url = (urljoin(settings.CAS_SERVER_URL, 'proxyValidate') + '?' +
            urlencode(params))
 
-    page = urlopen(url)
+    page = urlopen(url, context=ssl.SSLContext(ssl.PROTOCOL_SSLv23))
 
     try:
         response = page.read()
