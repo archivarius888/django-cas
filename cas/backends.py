@@ -86,7 +86,7 @@ def _internal_verify_cas(ticket, service, suffix):
     url = (urljoin(settings.CAS_SERVER_URL, suffix) + '?' +
            urlencode(params))
 
-    page = urlopen(url, )
+    page = urlopen(url, context=ssl.SSLContext(ssl.PROTOCOL_SSLv23))
 
     username = None
 
